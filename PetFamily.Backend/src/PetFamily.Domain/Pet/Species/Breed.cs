@@ -1,4 +1,4 @@
-﻿namespace PetFamily.Domain.Pet.Species
+﻿namespace PetFamily.Domain.Pets.Species
 {
     public class Breed
     {
