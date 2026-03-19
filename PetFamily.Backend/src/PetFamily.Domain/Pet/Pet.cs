@@ -1,4 +1,4 @@
-﻿namespace PetFamily.Domain.Pet
+﻿namespace PetFamily.Domain.Pets
 {
     public class Pet
     {
@@ -13,7 +13,7 @@
         public string Breed { get; set; } = default!;
 
         public string Color { get; set; } = default!;
-         
+
         public string Health { get; set; } = default!;
 
         public string Address { get; set; } = default!;
@@ -27,7 +27,7 @@
         public bool IsCastration { get; set; } = default;
 
         public DateTime BirthDate { get; set; } = default;
-    
+
         public bool IsVaccination { get; set; } = default;
 
         public string Status { get; set; } = default!;
