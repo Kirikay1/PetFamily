@@ -1,13 +1,9 @@
-﻿using PetFamily.Domain.Pets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Pets;
 
-namespace PetFamily.Domain.Volunteer
+namespace PetFamily.Domain.Volunteers
 {
-    internal class Volunteer
+    internal class Volunteer : Entity
     {
         public Guid Id { get; set; }
 

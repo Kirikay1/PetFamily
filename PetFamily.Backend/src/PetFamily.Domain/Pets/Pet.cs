@@ -1,6 +1,8 @@
-﻿namespace PetFamily.Domain.Pets
+﻿using CSharpFunctionalExtensions;
+
+namespace PetFamily.Domain.Pets
 {
-    public class Pet
+    public class Pet : Entity
     {
         public Guid Id { get; set; }
 
