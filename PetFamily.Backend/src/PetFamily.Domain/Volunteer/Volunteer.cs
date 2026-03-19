@@ -11,21 +11,21 @@ namespace PetFamily.Domain.Volunteer
     {
         public Guid Id { get; set; }
 
-        public string FIO { get; set; }
+        public string FIO { get; set; } = default!;
 
-        public string Email { get; set; }
+        public string Email { get; set; } = default!;
 
-        public string Description { get; set; }
+        public string Description { get; set; } = default!;
 
-        public double experience { get; set; }
+        public double experience { get; set; } = default;
 
-        public string Phone { get; set; }
+        public string Phone { get; set; } = default!;
 
-        public List<SocialNetwork> SocialNetworks { get; set; }
+        public List<SocialNetwork> SocialNetworks { get; set; } = [];
 
-        public List<Requisites> Requisites { get; set; }
+        public List<Requisites> Requisites { get; set; } = [];
 
-        public List<Pet> Pets { get; set; }
+        public List<Pet> Pets { get; set; } = [];
 
         public int GetAdoptedAnimalsCount()
         {
