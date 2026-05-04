@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using PetFamily.Domain.Pets;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Volunteers
 {

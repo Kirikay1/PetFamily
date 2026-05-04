@@ -1,19 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>ea7d729c-1c56-4fc3-a1a2-a592326180dc</UserSecretsId>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\PetFamily.Application\PetFamily.Application.csproj" />
-    <ProjectReference Include="..\PetFamily.Domain\PetFamily.Domain.csproj" />
-    <ProjectReference Include="..\PetFamily.Infastructure\PetFamily.Infastructure.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\PetFamily.Application\PetFamily.Application.csproj" />
+		<ProjectReference Include="..\PetFamily.Domain\PetFamily.Domain.csproj" />
+		<ProjectReference Include="..\PetFamily.Infrastructure\PetFamily.Infrastructure.csproj" />
+	</ItemGroup>
 
 </Project>

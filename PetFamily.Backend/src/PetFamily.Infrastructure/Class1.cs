@@ -1,4 +1,4 @@
-﻿namespace PetFamily.Infastructure
+﻿namespace PetFamily.Infrastructure
 {
     public class Class1
     {
