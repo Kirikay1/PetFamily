@@ -5,7 +5,7 @@ namespace PetFamily.Domain.Pets
 {
     public class Pet
     {
-        private Pet(string name, string description, Guid speciesId, Guid breedId, string color, string health, string address, int weight, int height, string phone, bool isCastration, DateTime birthDate, bool isVaccination, string status, IReadOnlyList<Requisites> requisites, IReadOnlyList<PetPhoto> photos)
+        private Pet(string name, string description, Guid speciesId, Guid breedId, string color, string health, string address, int weight, int height, string phone, bool isCastration, DateTime birthDate, bool isVaccination, PetStatus status, IReadOnlyList<Requisites> requisites, IReadOnlyList<PetPhoto> photos)
         {
             Name = name;
             Description = description;
@@ -50,14 +50,14 @@ namespace PetFamily.Domain.Pets
         public DateTime BirthDate { get; private set; } = default;
         public bool IsVaccination { get; private set; } = default;
 
-        public string Status { get; private set; } = default!;
+        public PetStatus Status { get; private set; } = default!;
 
         public IReadOnlyList<Requisites> Requisites { get; private set; } = new List<Requisites>();
         public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
 
         public IReadOnlyList<PetPhoto> Photos { get; private set; } = new List<PetPhoto>();
 
-        public static Result<Pet> Create(string name, string description, Guid speciesId, Guid breedId, string color, string health, string address, int weight, int height, string phone, bool isCastration, DateTime birthDate, bool isVaccination, string status, IReadOnlyList<Requisites> requisites, IReadOnlyList<PetPhoto> photos)
+        public static Result<Pet> Create(string name, string description, Guid speciesId, Guid breedId, string color, string health, string address, int weight, int height, string phone, bool isCastration, DateTime birthDate, bool isVaccination, PetStatus status, IReadOnlyList<Requisites> requisites, IReadOnlyList<PetPhoto> photos)
         {
             if (string.IsNullOrWhiteSpace(name))
                 return Result.Failure<Pet>("Name cannot be empty");
@@ -79,8 +79,8 @@ namespace PetFamily.Domain.Pets
                 return Result.Failure<Pet>("Height must be greater than zero");
             if (string.IsNullOrWhiteSpace(phone))
                 return Result.Failure<Pet>("Phone cannot be empty");
-            if (string.IsNullOrWhiteSpace(status))
-                return Result.Failure<Pet>("Status cannot be empty");
+            if (!Enum.IsDefined(status))
+                return Result.Failure<Pet>("Invalid pet status");
             if (birthDate >= DateTime.UtcNow)
                 return Result.Failure<Pet>("BirthDate must be in the past");
             if (requisites == null || requisites.Count == 0)
@@ -88,7 +88,7 @@ namespace PetFamily.Domain.Pets
             if (photos == null || photos.Count == 0)
                 return Result.Failure<Pet>("Photos cannot be empty");
 
-            return new Pet(name, description, speciesId, breedId, color, health, address, weight, height, phone, isCastration, birthDate, isVaccination, status, requisites, photos);
+            return Result.Success(new Pet(name, description, speciesId, breedId, color, health, address, weight, height, phone, isCastration, birthDate, isVaccination, status, requisites, photos));
         }
     }
 }

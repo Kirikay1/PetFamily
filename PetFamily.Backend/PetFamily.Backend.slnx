@@ -2,6 +2,7 @@
   <Folder Name="/Элементы решения/">
     <File Path="AGENTS.md" />
     <File Path="docker-compose.yml" />
+    <File Path="SESSION_NOTES.md" />
   </Folder>
   <Project Path="src/PetFamily.API/PetFamily.API.csproj" Id="aca0a36b-ef16-4c0b-bfa3-e8507c75701e" />
   <Project Path="src/PetFamily.Application/PetFamily.Application.csproj" Id="c95a23f6-e64f-4f6b-9da3-f5385551a606" />
