@@ -56,7 +56,7 @@ PetFamily.Backend (Clean Architecture):
 ## Update (2026-05-11)
 
 - B-3 завершён.
-- Коммит и push сделаны: `fix B-3`.
+- Коммит и push сделаны: `fix: refactoring ID-B-3`.
 - `Volunteer` переведён на rich-style:
   - приватный конструктор,
   - фабрика `Create(...)`,
