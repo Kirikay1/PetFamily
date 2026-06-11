@@ -3,9 +3,31 @@ using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Pets
 {
-    public class Pet
+    public class Pet : Shared.Entity<PetId>
     {
-        private Pet(string name, string description, Guid speciesId, Guid breedId, string color, string health, string address, int weight, int height, string phone, bool isCastration, DateTime birthDate, bool isVaccination, PetStatus status, IReadOnlyList<Requisites> requisites, IReadOnlyList<PetPhoto> photos)
+        private Pet(PetId id) : base(id)
+        {
+        }
+
+        private Pet(
+            PetId petId,
+            string name, 
+            string description, 
+            Guid speciesId, 
+            Guid breedId, 
+            string color, 
+            string health, 
+            string address, 
+            int weight, 
+            int height, 
+            string phone,
+            bool isCastration, 
+            DateTime birthDate,
+            bool isVaccination, 
+            PetStatus status, 
+            IReadOnlyList<Requisites> 
+            requisites, 
+            IReadOnlyList<PetPhoto> photos) : base(petId)
         {
             Name = name;
             Description = description;
@@ -24,8 +46,6 @@ namespace PetFamily.Domain.Pets
             Requisites = requisites;
             Photos = photos;
         }
-
-        public Guid Id { get; private set; }
 
         public string Name { get; private set; } = default!;
 
@@ -57,7 +77,7 @@ namespace PetFamily.Domain.Pets
 
         public IReadOnlyList<PetPhoto> Photos { get; private set; } = new List<PetPhoto>();
 
-        public static Result<Pet> Create(string name, string description, Guid speciesId, Guid breedId, string color, string health, string address, int weight, int height, string phone, bool isCastration, DateTime birthDate, bool isVaccination, PetStatus status, IReadOnlyList<Requisites> requisites, IReadOnlyList<PetPhoto> photos)
+        public static Result<Pet> Create(PetId petId, string name, string description, Guid speciesId, Guid breedId, string color, string health, string address, int weight, int height, string phone, bool isCastration, DateTime birthDate, bool isVaccination, PetStatus status, IReadOnlyList<Requisites> requisites, IReadOnlyList<PetPhoto> photos)
         {
             if (string.IsNullOrWhiteSpace(name))
                 return Result.Failure<Pet>("Name cannot be empty");
@@ -88,7 +108,9 @@ namespace PetFamily.Domain.Pets
             if (photos == null || photos.Count == 0)
                 return Result.Failure<Pet>("Photos cannot be empty");
 
-            return Result.Success(new Pet(name, description, speciesId, breedId, color, health, address, weight, height, phone, isCastration, birthDate, isVaccination, status, requisites, photos));
+            var pet = new Pet(petId, name, description, speciesId, breedId, color, health, address, weight, height, phone, isCastration, birthDate, isVaccination, status, requisites, photos);
+
+            return Result.Success(pet);
         }
     }
 }

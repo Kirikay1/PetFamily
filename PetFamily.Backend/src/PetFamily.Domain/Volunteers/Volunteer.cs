@@ -4,9 +4,30 @@ using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Volunteers
 {
-    public class Volunteer
+    public class Volunteer : Shared.Entity<VolunteerId>
     {
-        public Guid Id { get; private set; }
+        private Volunteer(VolunteerId id) : base(id)
+        {
+        }
+
+        private Volunteer(
+            VolunteerId volunteerId,
+            string fullName,
+            string email,
+            string description,
+            double experience,
+            string phone,
+            IReadOnlyList<SocialNetwork> socialNetworks,
+            IReadOnlyList<Requisites> requisites) : base(volunteerId)
+        {
+            FullName = fullName;
+            Email = email;
+            Description = description;
+            Experience = experience;
+            Phone = phone;
+            SocialNetworks = socialNetworks;
+            Requisites = requisites;
+        }
 
         public string FullName { get; private set; } = default!;
 
@@ -24,26 +45,7 @@ namespace PetFamily.Domain.Volunteers
 
         public IReadOnlyList<Pet> Pets { get; private set; } = new List<Pet>();
 
-        private Volunteer(
-            string fullName,
-            string email,
-            string description,
-            double experience,
-            string phone,
-            IReadOnlyList<SocialNetwork> socialNetworks,
-            IReadOnlyList<Requisites> requisites)
-        {
-            Id = Guid.NewGuid();
-            FullName = fullName;
-            Email = email;
-            Description = description;
-            Experience = experience;
-            Phone = phone;
-            SocialNetworks = socialNetworks;
-            Requisites = requisites;
-        }
-
-        public static Result<Volunteer> Create(string fullName, string email, string description, double experience, string phone, IReadOnlyList<SocialNetwork> socialNetworks, IReadOnlyList<Requisites> requisites)
+        public static Result<Volunteer> Create(VolunteerId volunteerId, string fullName, string email, string description, double experience, string phone, IReadOnlyList<SocialNetwork> socialNetworks, IReadOnlyList<Requisites> requisites)
         {
             if (string.IsNullOrWhiteSpace(fullName))
                 return Result.Failure<Volunteer>("fullName cannot be empty");
@@ -61,7 +63,7 @@ namespace PetFamily.Domain.Volunteers
                 return Result.Failure<Volunteer>("Requisites cannot be empty");
 
             return Result.Success(new Volunteer(
-           fullName, email, description, experience, phone, socialNetworks, requisites));
+           volunteerId, fullName, email, description, experience, phone, socialNetworks, requisites));
 
 
         }
