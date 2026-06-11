@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using PetFamily.Domain.Pets;
-using PetFamily.Domain.Pets.Species;
 using PetFamily.Domain.Volunteers;
-using static CSharpFunctionalExtensions.Result;
 
 namespace PetFamily.Infrastructure
 {
@@ -13,14 +12,17 @@ namespace PetFamily.Infrastructure
 
         public DbSet<Pet> Pets => Set<Pet>();
         public DbSet<Volunteer> Volunteers => Set<Volunteer>();
-        public DbSet<Breed> Breeds => Set<Breed>();
-        public DbSet<Species> Species => Set<Species>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(configuration.GetConnectionString(DATABASE));
             optionsBuilder.UseSnakeCaseNamingConvention();
+            optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
         }
+
+        private ILoggerFactory CreateLoggerFactory() => 
+            LoggerFactory.Create(builder => { builder.AddConsole(); });
+
 
     }
 }
