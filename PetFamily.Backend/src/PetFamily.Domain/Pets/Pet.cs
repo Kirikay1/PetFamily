@@ -11,10 +11,9 @@ namespace PetFamily.Domain.Pets
 
         private Pet(
             PetId petId,
-            string name, 
+            string name,
+            PetType petType,
             string description, 
-            Guid speciesId, 
-            Guid breedId, 
             string color, 
             string health,
             Address address, 
@@ -27,9 +26,8 @@ namespace PetFamily.Domain.Pets
             PetStatus status) : base(petId)
         {
             Name = name;
+            PetType = petType;
             Description = description;
-            SpeciesId = speciesId;
-            BreedId = breedId;
             Color = color;
             Health = health;
             Address = address;
@@ -44,11 +42,9 @@ namespace PetFamily.Domain.Pets
 
         public string Name { get; private set; } = default!;
 
-        public Guid SpeciesId { get; private set; }
+        public PetType PetType { get; private set; } = default!;
 
         public string Description { get; private set; } = default!;
-
-        public Guid BreedId { get; private set; }
 
         public string Color { get; private set; } = default!;
 
@@ -72,16 +68,14 @@ namespace PetFamily.Domain.Pets
 
         public PetPhotoDetails? PhotosDetails { get; private set; }
 
-        public static Result<Pet> Create(PetId petId, string name, string description, Guid speciesId, Guid breedId, string color, string health, Address address, int weight, int height, string phone, bool isCastration, DateOnly birthDate, bool isVaccination, PetStatus status)
+        public static Result<Pet> Create(PetId petId, string name, string description, PetType petType, string color, string health, Address address, int weight, int height, string phone, bool isCastration, DateOnly birthDate, bool isVaccination, PetStatus status)
         {
             if (string.IsNullOrWhiteSpace(name))
                 return Result.Failure<Pet>("Name cannot be empty");
             if (string.IsNullOrWhiteSpace(description))
                 return Result.Failure<Pet>("Description cannot be empty");
-            if (speciesId == Guid.Empty)
-                return Result.Failure<Pet>("SpeciesId cannot be empty");
-            if (breedId == Guid.Empty)
-                return Result.Failure<Pet>("Breed cannot be empty");
+            if (petType == null)
+                return Result.Failure<Pet>("PetType cannot be null");
             if (string.IsNullOrWhiteSpace(color))
                 return Result.Failure<Pet>("Color cannot be empty");
             if (string.IsNullOrWhiteSpace(health))
@@ -97,7 +91,7 @@ namespace PetFamily.Domain.Pets
             if (birthDate >= DateOnly.FromDateTime(DateTime.UtcNow))
                 return Result.Failure<Pet>("BirthDate must be in the past");
 
-            var pet = new Pet(petId, name, description, speciesId, breedId, color, health, address, weight, height, phone, isCastration, birthDate, isVaccination, status);
+            var pet = new Pet(petId, name, petType, description, color, health, address, weight, height, phone, isCastration, birthDate, isVaccination, status);
 
             return Result.Success(pet);
         }

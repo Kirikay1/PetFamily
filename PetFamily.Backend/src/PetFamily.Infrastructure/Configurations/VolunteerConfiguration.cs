@@ -72,7 +72,7 @@ namespace PetFamily.Infrastructure.Configurations
 
             builder.HasMany(p => p.Pets)
                 .WithOne()
-                .HasForeignKey("volunteerId");
+                .HasForeignKey("volunteer_id");
         }
     }
 }
