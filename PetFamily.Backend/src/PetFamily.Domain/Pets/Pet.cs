@@ -5,10 +5,6 @@ namespace PetFamily.Domain.Pets
 {
     public class Pet : Shared.Entity<PetId>
     {
-        private readonly List<Requisites> _requisites = [];
-
-        private readonly List<PetPhoto> _photos = [];
-
         private Pet(PetId id) : base(id)
         {
         }
@@ -20,8 +16,8 @@ namespace PetFamily.Domain.Pets
             Guid speciesId, 
             Guid breedId, 
             string color, 
-            string health, 
-            string address, 
+            string health,
+            Address address, 
             int weight, 
             int height, 
             string phone,
@@ -57,7 +53,7 @@ namespace PetFamily.Domain.Pets
         public string Color { get; private set; } = default!;
 
         public string Health { get; private set; } = default!;
-        public string Address { get; private set; } = default!;
+        public Address Address { get; private set; } = default!;
 
         public int Weight { get; private set; } = default;
 
@@ -71,12 +67,12 @@ namespace PetFamily.Domain.Pets
 
         public PetStatus Status { get; private set; } = default!;
 
-        public IReadOnlyList<Requisites> Requisites => _requisites;
+        public RequisitesDetails? RequisitesDetails { get; private set; }
         public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
 
-        public IReadOnlyList<PetPhoto> Photos => _photos;
+        public PetPhotoDetails? PhotosDetails { get; private set; }
 
-        public static Result<Pet> Create(PetId petId, string name, string description, Guid speciesId, Guid breedId, string color, string health, string address, int weight, int height, string phone, bool isCastration, DateOnly birthDate, bool isVaccination, PetStatus status)
+        public static Result<Pet> Create(PetId petId, string name, string description, Guid speciesId, Guid breedId, string color, string health, Address address, int weight, int height, string phone, bool isCastration, DateOnly birthDate, bool isVaccination, PetStatus status)
         {
             if (string.IsNullOrWhiteSpace(name))
                 return Result.Failure<Pet>("Name cannot be empty");
@@ -90,8 +86,6 @@ namespace PetFamily.Domain.Pets
                 return Result.Failure<Pet>("Color cannot be empty");
             if (string.IsNullOrWhiteSpace(health))
                 return Result.Failure<Pet>("Health cannot be empty");
-            if (string.IsNullOrWhiteSpace(address))
-                return Result.Failure<Pet>("Address cannot be empty");
             if (weight <= 0)
                 return Result.Failure<Pet>("Weight must be greater than zero");
             if (height <= 0)

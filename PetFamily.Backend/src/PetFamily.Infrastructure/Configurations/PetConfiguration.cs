@@ -38,9 +38,13 @@ namespace PetFamily.Infrastructure.Configurations
                 .IsRequired()
                 .HasMaxLength(Constants.MaxLowTextLength);
 
-            builder.Property(p => p.Address)
-                .IsRequired()
-                .HasMaxLength(Constants.MaxMediumTextLength);
+            builder.ComplexProperty(p => p.Address, pb =>
+            {
+                pb.Property(a => a.Value)
+                    .HasColumnName("address")
+                    .IsRequired()
+                    .HasMaxLength(Constants.MaxMediumTextLength);
+            });
 
             builder.Property(p => p.Weight)
                 .IsRequired();
@@ -67,15 +71,38 @@ namespace PetFamily.Infrastructure.Configurations
                 .HasMaxLength(50)
                 .IsRequired();
 
-            builder.HasMany(p => p.Requisites)
-                .WithOne()
-                .HasForeignKey("petId");
+            builder.OwnsOne(p => p.RequisitesDetails, pb =>
+            {
+                pb.ToJson();
+
+                pb.OwnsMany(d => d.Requisites, rb =>
+                {
+                    rb.Property(r => r.Name)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MaxLowTextLength);
+
+                    rb.Property(r => r.Description)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MaxHighTextLength);
+                });
+            });
 
             builder.Property(p => p.CreatedAt).IsRequired();
 
-            builder.HasMany(p => p.Photos)
-                .WithOne()
-                .HasForeignKey("petId");
+            builder.OwnsOne(p => p.PhotosDetails, pb =>
+            {
+                pb.ToJson();
+
+                pb.OwnsMany(d => d.Photos, photoBuilder =>
+                {
+                    photoBuilder.Property(p => p.PathToStorage)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MaxMediumTextLength);
+
+                    photoBuilder.Property(p => p.IsMainPhoto)
+                    .IsRequired();
+                });
+            });
         }
     }
 }

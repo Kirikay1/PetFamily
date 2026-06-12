@@ -8,10 +8,6 @@ namespace PetFamily.Domain.Volunteers
     {
         private readonly List<Pet> _pets = [];
 
-        private readonly List<SocialNetwork> _socialNetworks = [];
-
-        private readonly List<Requisites> _requisites = [];
-
         private Volunteer(VolunteerId id) : base(id)
         {
         }
@@ -41,9 +37,9 @@ namespace PetFamily.Domain.Volunteers
 
         public string Phone { get; private set; } = default!;
 
-        public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
+        public SocialNetworkDetails? SocialNetworkDetails { get; private set; }
 
-        public IReadOnlyList<Requisites> Requisites => _requisites;
+        public RequisitesDetails? RequisitesDetails { get; private set; }
 
         public IReadOnlyList<Pet> Pets => _pets;
 

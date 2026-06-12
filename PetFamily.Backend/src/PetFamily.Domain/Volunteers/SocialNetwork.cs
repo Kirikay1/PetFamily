@@ -1,11 +1,28 @@
-﻿namespace PetFamily.Domain.Volunteers
+﻿using CSharpFunctionalExtensions;
+
+namespace PetFamily.Domain.Volunteers
 {
-    public class SocialNetwork
+    public record SocialNetwork
     {
-        public Guid Id { get; set; }
+        private SocialNetwork(string name, string link)
+        {
+            Name = name;
+            Link = link;
+        }
 
-        public string Name { get; set; } = default!;
+        public string Name { get; } = default!;
 
-        public string Link { get; set; } = default!;
+        public string Link { get; } = default!;
+
+        public static Result<SocialNetwork> Create(string name, string link)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return Result.Failure<SocialNetwork>("Name cannot be empty");
+
+            if (string.IsNullOrWhiteSpace(link))
+                return Result.Failure<SocialNetwork>("Link cannot be empty");
+
+            return new SocialNetwork(name, link);
+        }
     }
 }
