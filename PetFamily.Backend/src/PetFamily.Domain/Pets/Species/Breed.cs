@@ -2,8 +2,8 @@
 {
     public class Breed
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; private set; }
 
-        public string Name { get; set; } = default!;
+        public string Name { get; private set; } = default!;
     }
 }
