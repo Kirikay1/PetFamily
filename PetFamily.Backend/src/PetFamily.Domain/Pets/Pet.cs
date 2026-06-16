@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Pets.Species;
 using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Pets
@@ -26,7 +27,8 @@ namespace PetFamily.Domain.Pets
             PetStatus status) : base(petId)
         {
             Name = name;
-            PetType = petType;
+            SpeciesId = petType.SpeciesId;
+            BreedId = petType.BreedId;
             Description = description;
             Color = color;
             Health = health;
@@ -42,7 +44,11 @@ namespace PetFamily.Domain.Pets
 
         public string Name { get; private set; } = default!;
 
-        public PetType PetType { get; private set; } = default!;
+        public SpeciesId SpeciesId { get; private set; } = default!;
+
+        public Guid BreedId { get; private set; }
+
+        public PetType PetType => new(SpeciesId, BreedId);
 
         public string Description { get; private set; } = default!;
 

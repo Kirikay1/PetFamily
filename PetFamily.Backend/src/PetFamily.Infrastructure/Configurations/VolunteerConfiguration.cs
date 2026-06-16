@@ -6,7 +6,7 @@ using PetFamily.Domain.Volunteers;
 
 namespace PetFamily.Infrastructure.Configurations
 {
-    internal class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
+    public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
     {
         public void Configure(EntityTypeBuilder<Volunteer> builder)
         {

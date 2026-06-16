@@ -6,7 +6,7 @@ using PetFamily.Domain.Shared;
 
 namespace PetFamily.Infrastructure.Configurations
 {
-    internal class PetConfiguration : IEntityTypeConfiguration<Pet>
+    public class PetConfiguration : IEntityTypeConfiguration<Pet>
     {
         public void Configure(EntityTypeBuilder<Pet> builder)
         {
@@ -23,19 +23,28 @@ namespace PetFamily.Infrastructure.Configurations
                 .IsRequired()
                 .HasMaxLength(Constants.MaxLowTextLength);
 
-            builder.ComplexProperty(p => p.PetType, pb =>
-            {
-                pb.Property(pt => pt.SpeciesId)
+            builder.Property(p => p.SpeciesId)
                 .HasConversion(
                     speciesId => speciesId.Value,
                     value => SpeciesId.Create(value))
                 .HasColumnName("species_id")
                 .IsRequired();
 
-                pb.Property(pt => pt.BreedId)
-                    .HasColumnName("breed_id")
-                    .IsRequired();
-            });
+            builder.Property(p => p.BreedId)
+                .HasColumnName("breed_id")
+                .IsRequired();
+
+            builder.HasOne<Species>()
+                .WithMany()
+                .HasForeignKey(p => p.SpeciesId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne<Breed>()
+                .WithMany()
+                .HasForeignKey(p => p.BreedId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Ignore(p => p.PetType);
 
             builder.Property(p => p.Description)
                 .IsRequired()

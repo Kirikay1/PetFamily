@@ -6,7 +6,7 @@ using PetFamily.Domain.Shared;
 
 namespace PetFamily.Infrastructure.Configurations
 {
-    internal class SpeciesConfiguration : IEntityTypeConfiguration<Species>
+    public class SpeciesConfiguration : IEntityTypeConfiguration<Species>
     {
         public void Configure(EntityTypeBuilder<Species> builder)
         {
@@ -25,7 +25,8 @@ namespace PetFamily.Infrastructure.Configurations
 
             builder.HasMany(s => s.Breeds)
                 .WithOne()
-                .HasForeignKey("species_id");
+                .HasForeignKey("species_id")
+                .IsRequired();
         }
     }
 }
