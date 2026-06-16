@@ -37,10 +37,14 @@ Codex работает как наставник и ревьюер:
 - B-2 выполнено.
 - B-3 выполнено.
 - B-4 выполнено.
+- B-4.1 выполнено и закоммичено.
+- B-4.2 выполнено.
+- B-4.3 выполнено.
+- B-4.4 выполнено.
 
 ### В работе
 
-- B-4.1: EF Core + PostgreSQL + DbContext + конфигурации + миграции.
+- B-5: создание волонтёра.
 
 ### Добавлено в AGENTS.md
 
@@ -52,20 +56,24 @@ Codex работает как наставник и ревьюер:
 - B-5.4
 - B-5.5
 
-## Текущий прогресс по B-4.1
+## Итог по B-4.1
 
-Уже сделано:
-- Добавлен `docker-compose.yml` для PostgreSQL.
-- PostgreSQL запускается через Docker.
-- Добавлен `ApplicationDbContext` в `PetFamily.Infrastructure`.
-- Добавлены пакеты EF Core / Npgsql / snake_case naming conventions.
-- Добавлен `UserSecretsId` в `PetFamily.API`.
-- Строка подключения хранится через user secrets.
-- В `appsettings.json` оставлена заглушка строки подключения.
-- В `ApplicationDbContext` используется `UseNpgsql`.
-- В `ApplicationDbContext` используется `UseSnakeCaseNamingConvention`.
-- Добавлено логирование EF Core через `LoggerFactory`.
+Сделано:
+- Подключён EF Core + PostgreSQL.
+- PostgreSQL запускается через Docker Compose.
+- Добавлен `ApplicationDbContext`.
+- Добавлены конфигурации доменных моделей.
+- Используется `UseSnakeCaseNamingConvention`.
+- Добавлено EF Core логирование через `LoggerFactory`.
+- Создана и применена миграция `InitialCreate`.
+- Таблицы: `volunteers`, `pets`, `species`, `breeds`.
+- JSONB используется для реквизитов, соцсетей и фотографий.
+- FK настроены для `pets -> species`, `pets -> breeds`, `breeds -> species`.
+
+## Следующий шаг
+
+Начинается B-5: создание волонтёра.
 
 Важно:
-- В `docker-compose.yml` PostgreSQL проброшен наружу на порт `5434`.
-- Поэтому локальная строка подключения должна использовать `Port=5434`.
+- Не переходить сразу к B-5.1, B-5.2 и следующим задачам без отдельного решения.
+- Сначала сделать минимальный вертикальный сценарий создания волонтёра по слоям.
