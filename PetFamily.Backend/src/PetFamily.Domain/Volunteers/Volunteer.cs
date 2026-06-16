@@ -1,41 +1,79 @@
 ﻿using CSharpFunctionalExtensions;
 using PetFamily.Domain.Pets;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Volunteers
 {
-    internal class Volunteer : Entity
+    public class Volunteer : Shared.Entity<VolunteerId>
     {
-        public Guid Id { get; set; }
+        private readonly List<Pet> _pets = [];
 
-        public string FIO { get; set; } = default!;
+        private Volunteer(VolunteerId id) : base(id)
+        {
+        }
 
-        public string Email { get; set; } = default!;
+        private Volunteer(
+            VolunteerId volunteerId,
+            string fullName,
+            string email,
+            string description,
+            double experience,
+            string phone) : base(volunteerId)
+        {
+            FullName = fullName;
+            Email = email;
+            Description = description;
+            Experience = experience;
+            Phone = phone;
+        }
 
-        public string Description { get; set; } = default!;
+        public string FullName { get; private set; } = default!;
 
-        public double experience { get; set; } = default;
+        public string Email { get; private set; } = default!;
 
-        public string Phone { get; set; } = default!;
+        public string Description { get; private set; } = default!;
 
-        public List<SocialNetwork> SocialNetworks { get; set; } = [];
+        public double Experience { get; private set; } = default;
 
-        public List<Requisites> Requisites { get; set; } = [];
+        public string Phone { get; private set; } = default!;
 
-        public List<Pet> Pets { get; set; } = [];
+        public SocialNetworkDetails? SocialNetworkDetails { get; private set; }
 
+        public RequisitesDetails? RequisitesDetails { get; private set; }
+
+        public IReadOnlyList<Pet> Pets => _pets;
+
+        public static Result<Volunteer> Create(VolunteerId volunteerId, string fullName, string email, string description, double experience, string phone)
+        {
+            if (string.IsNullOrWhiteSpace(fullName))
+                return Result.Failure<Volunteer>("fullName cannot be empty");
+            if (string.IsNullOrWhiteSpace(email))
+                return Result.Failure<Volunteer>("email cannot be empty");
+            if (string.IsNullOrWhiteSpace(description))
+                return Result.Failure<Volunteer>("description cannot be empty");
+            if (experience < 0)
+                return Result.Failure<Volunteer>("experience cannot be negative");
+            if (string.IsNullOrWhiteSpace(phone))
+                return Result.Failure<Volunteer>("phone cannot be empty");
+
+            return Result.Success(new Volunteer(
+                volunteerId, fullName, email, description, experience, phone));
+
+
+        }
         public int GetAdoptedAnimalsCount()
         {
-            return 0;
+            return Pets.Count(p => p.Status == PetStatus.FoundHome);
         }
 
         public int GetAnimalsUnderTreatmentCount()
         {
-            return 0;
+            return Pets.Count(p => p.Status == PetStatus.NeedsHelp);
         }
 
         public int GetUnadoptedAnimalsCount()
         {
-            return 0;
+            return Pets.Count(p => p.Status == PetStatus.LookingForHome);
         }
     }
 }
